@@ -256,7 +256,7 @@ public final class FileManager {
 <br />
 <h3>  일정 </h3>
 
-![Image](https://github.com/user-attachments/assets/d5fa3f3e-0775-4847-b4ec-94d6c8c17d2e)
+![Image](https://github.com/user-attachments/assets/5a83e660-5a0e-4a6a-a0bf-54c4f4548ed3)
 
 <br />
 <h3> 리포트 ~ 저장 및 종료 </h3>
