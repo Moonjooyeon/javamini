@@ -186,11 +186,58 @@ Crepe의 거래 중심 일정 관리, ArtMug의 포트폴리오 중심 기록,
   <li><b>코드 수정</b></li>
 </ol>
 
+
 ```java
 // 기존
 private final Map<String, Schedule> schedules = new HashMap<>();
 
 // 변경 후
 private final Map<String, Schedule> schedules = new LinkedHashMap<>();
+
+```
+
+<h3>2. 재시작 후 <code>Schedule</code>만 복구되고 <code>Project</code>/<code>Expense</code>는 비어 보이는 문제</h3>
+
+<h4> 증상</h4>
+<ul>
+  <li>앱 종료 후 다시 실행하면 <b>Schedule</b>만 정상 복원</li>
+  <li><b>Project</b>, <b>Expense</b> 목록은 항상 빈 목록처럼 표시</li>
+</ul>
+
+<h4> 원인 분석</h4>
+<ol>
+  <li><b>파일명 불일치</b><br />
+    저장 시: <code>data/expenses.txt</code> (복수)<br />
+    로드 시: <code>data/expense.txt</code> (단수)<br />
+    → 저장은 되지만, 재시작 후 <b>다른 파일</b>을 읽어 항상 빈 목록처럼 보임.
+  </li>
+  <li><b>구분자 불일치</b><br />
+    저장 시: <code>,</code> (CSV)<br />
+    로드 시: <code>|</code> (파이프)<br />
+    → 같은 파일이라도 포맷이 달라 <b>파싱 실패</b>.
+  </li>
+</ol>
+
+<h4> 해결 전략</h4>
+<ol>
+  <li><b>파일명/경로/구분자 상수화</b> — <code>FileManager</code> 단일 소스에서만 관리</li>
+  <li><b>직렬화/역직렬화 규약 고정</b> — <code>toLine()</code> / <code>fromLine()</code>를 각 도메인에서 일관 구현</li>
+  <li><b>로딩 실패 로깅</b> — 스킵한 라인/예외를 로깅해 원인 추적 가능하게 함</li>
+</ol>
+
+<h4> 코드 스니펫 (핵심 수정)</h4>
+
+<p><b>1) FileManager 상수 통일</b></p>
+
+```java
+public final class FileManager {
+    private static final String DIR = "data";
+    private static final String DELIM = ","; // 저장/로딩 동일 구분자
+
+    private static final String EXPENSES_FILE = DIR + "/expenses.txt";
+    private static final String PROJECTS_FILE = DIR + "/projects.txt";
+    private static final String SCHEDULES_FILE = DIR + "/schedules.txt";
+    // ... 생성자에서 DIR 존재 확인 및 생성
+}
 
 
