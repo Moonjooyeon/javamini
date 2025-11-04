@@ -208,12 +208,12 @@ private final Map<String, Schedule> schedules = new LinkedHashMap<>();
   <li><b>파일명 불일치</b><br />
     저장 시: <code>data/expenses.txt</code> (복수)<br />
     로드 시: <code>data/expense.txt</code> (단수)<br />
-    → 저장은 되지만, 재시작 후 <b>다른 파일</b>을 읽어 항상 빈 목록처럼 보임.
+    - 저장은 되지만, 재시작 후 <b>다른 파일</b>을 읽어 항상 빈 목록처럼 보임.
   </li>
   <li><b>구분자 불일치</b><br />
     저장 시: <code>,</code> (CSV)<br />
     로드 시: <code>|</code> (파이프)<br />
-    → 같은 파일이라도 포맷이 달라 <b>파싱 실패</b>.
+    - 같은 파일이라도 포맷이 달라 <b>파싱 실패</b>.
   </li>
 </ol>
 
@@ -221,12 +221,11 @@ private final Map<String, Schedule> schedules = new LinkedHashMap<>();
 <ol>
   <li><b>파일명/경로/구분자 상수화</b> — <code>FileManager</code> 단일 소스에서만 관리</li>
   <li><b>직렬화/역직렬화 규약 고정</b> — <code>toLine()</code> / <code>fromLine()</code>를 각 도메인에서 일관 구현</li>
-  <li><b>로딩 실패 로깅</b> — 스킵한 라인/예외를 로깅해 원인 추적 가능하게 함</li>
 </ol>
 
 <h4> 코드 스니펫 (핵심 수정)</h4>
 
-<p><b>1) FileManager 상수 통일</b></p>
+<p><b> FileManager 상수 통일</b></p>
 
 ```java
 public final class FileManager {
@@ -238,6 +237,30 @@ public final class FileManager {
     private static final String SCHEDULES_FILE = DIR + "/schedules.txt";
     // ... 생성자에서 DIR 존재 확인 및 생성
 }
+
+
+```
+
+<hr />
+
+<h2>실행 사진</h2>
+<h3>  소비등록 </h3>
+
+![Image](https://github.com/user-attachments/assets/fb94cf38-06e8-4d27-b33c-181eb54819b8)
+<br />
+<h3>   프로젝트 추가 </h3>
+
+![Image](https://github.com/user-attachments/assets/bbecfbb0-7ba7-48f1-b64d-0c2f21bfd720)
+
+<br />
+<h3>  일정 </h3>
+
+![Image](https://github.com/user-attachments/assets/d5fa3f3e-0775-4847-b4ec-94d6c8c17d2e)
+
+<br />
+<h3> 리포트 ~ 저장 및 종료 </h3>
+
+![Image](https://github.com/user-attachments/assets/6901f6f7-58bf-4c21-813b-1435a9155a98)
 
 
 
