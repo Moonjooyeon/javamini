@@ -75,7 +75,7 @@ Crepe의 거래 중심 일정 관리, ArtMug의 포트폴리오 중심 기록,
 
 <hr />
 
-<h2>🛠️ 기술 스택 (Tech Stack)</h2>
+<h2> 기술 스택 (Tech Stack)</h2>
 <ul>
   <li><b>Language:</b> Java (JDK 17)</li>
   <li><b>Paradigm:</b> Object-Oriented Programming (Inheritance + Interface)</li>
@@ -86,7 +86,7 @@ Crepe의 거래 중심 일정 관리, ArtMug의 포트폴리오 중심 기록,
 
 <hr />
 
-<h2>📊 설계 개요 (Design Overview)</h2>
+<h2> 설계 개요 (Design Overview)</h2>
 <ul>
   <li><b>Work (추상 클래스)</b> → Expense / Project / Schedule의 공통 필드(title, status)</li>
   <li><b>Schedulable (인터페이스)</b> → 모든 일정 객체가 남은 일수를 계산하도록 강제</li>
@@ -99,3 +99,47 @@ Crepe의 거래 중심 일정 관리, ArtMug의 포트폴리오 중심 기록,
 <p>
 (📁 <a href="https://www.notion.so/evve00/2a19bf07f8d0809faeffeb8d8284a6ac?source=copy_link" target="_blank">프로젝트 문서 바로가기</a>)
 </p>
+
+<hr />
+
+<h2> 상속(extends)과 인터페이스(implements) 설계 의도</h2>
+
+<h3> 1. 상속 — 공통 속성의 구조화 (Inheritance)</h3>
+
+<p>
+<code>Work</code> 추상 클래스는 “창작 활동(Work)”이라는 상위 개념을 <b>추상화한 부모 클래스</b>입니다.<br />
+모든 세부 항목인 <code>Expense</code>, <code>Project</code> 등은 ‘Work’의 일종이라는 공통점을 가지므로, 
+<code>title</code>과 <code>status</code> 등의 공통 필드를 상속받도록 설계했습니다.
+</p>
+
+<ul>
+  <li>코드 중복을 줄이고 유지보수를 용이하게 함</li>
+  <li>새로운 관리 항목 (예: <code>Exhibition</code>, <code>Commission</code> 등)도 <b>확장성 있게 추가 가능</b></li>
+  <li>다형성(Polymorphism)을 활용해 <code>List&lt;Work&gt;</code> 형태로 다양한 객체를 일괄 관리 가능</li>
+</ul>
+
+<p><b>효과:</b><br />
+데이터 구조가 일관되고, 확장성과 재사용성이 높은 객체 지향적 구조를 실현했습니다.
+</p>
+
+<hr style="border: 0; border-top: 1px solid #ddd;" />
+
+<h3> 2. 인터페이스 — 일정성(스케줄 기능)의 통합 규약 (Interface)</h3>
+
+<p>
+일정 관련 클래스(<code>Schedule</code>)에는 <b>D-Day 계산</b>이나 <b>남은 일수 반환</b>과 같은 공통 행위가 필요했습니다.<br />
+이를 표준화하기 위해 <code>Schedulable</code> 인터페이스를 정의하여, 
+모든 일정형 객체가 <code>getRemainingDays()</code> 메서드를 반드시 구현하도록 강제했습니다.
+</p>
+
+<ul>
+  <li><code>Schedule</code>, <code>Project</code> 등 다양한 클래스가 동일한 스케줄 규약을 따름</li>
+  <li>“남은 기간 출력” 로직을 한 번만 작성해도 모든 일정형 객체에 공통 적용 가능</li>
+  <li>공통 스케줄 기능을 <b>효율적으로 재사용</b>할 수 있음</li>
+</ul>
+
+<p><b>효과:</b><br />
+일정 데이터의 <b>일관성·확장성·유지보수성</b>을 확보하며, 
+객체 간의 역할을 명확히 구분하는 설계가 가능했습니다.
+</p>
+
