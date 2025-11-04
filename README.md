@@ -96,7 +96,7 @@ Crepe의 거래 중심 일정 관리, ArtMug의 포트폴리오 중심 기록,
 <hr />
 
 ## 클래스 다이어그램
-<img width="1844" height="1566" alt="Image" src="https://github.com/user-attachments/assets/857649b0-ae42-4a02-8bec-4a766714efe8" />
+<img width="1848" height="1952" alt="Image" src="https://github.com/user-attachments/assets/4f159309-136f-445a-8700-36ea27934d17" />
 
 <hr />
 
