@@ -170,8 +170,7 @@ Crepe의 거래 중심 일정 관리, ArtMug의 포트폴리오 중심 기록,
   </li>
 
   <li><b>사용 목적과의 불일치</b><br />
-    - 본 프로젝트의 일정 관리에서는 “등록 순서대로 조회·삭제”하는 것이 핵심 UX였음.<br />
-    - 즉, <code>List</code>처럼 순서를 유지하되, <code>Map</code>의 빠른 검색 기능도 필요했음.
+    - <code>List</code>처럼 순서를 유지하되, <code>Map</code>의 빠른 검색 기능도 필요했음.
   </li>
 </ol>
 
@@ -239,5 +238,6 @@ public final class FileManager {
     private static final String SCHEDULES_FILE = DIR + "/schedules.txt";
     // ... 생성자에서 DIR 존재 확인 및 생성
 }
+
 
 
