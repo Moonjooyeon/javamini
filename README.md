@@ -148,3 +148,49 @@ Crepe의 거래 중심 일정 관리, ArtMug의 포트폴리오 중심 기록,
 ## 클래스 다이어그램
 <img width="1844" height="1566" alt="Image" src="https://github.com/user-attachments/assets/857649b0-ae42-4a02-8bec-4a766714efe8" />
 
+<hr />
+
+<h2>🧯 트러블슈팅 (Troubleshooting)</h2>
+
+<h3>1. 일정 삭제 기능 구현 중 HashMap으로는 삭제/순서 관리가 어려웠던 문제</h3>
+
+<h4> 증상</h4>
+<ul>
+  <li>일정(Schedule) 등록 후, <b>등록 순서대로</b> 목록을 보여주고 싶었음</li>
+  <li>사용자가 “번호로 선택해 삭제”하는 기능을 구현하려 했지만, <code>HashMap</code> 사용 시 순서가 유지되지 않음</li>
+  <li>콘솔 출력 시마다 일정의 순서가 뒤섞여 표시됨</li>
+</ul>
+
+<h4> 원인 분석</h4>
+
+<ol>
+  <li><b>HashMap의 특성</b><br />
+    - <code>HashMap</code>은 내부적으로 해시 기반 구조를 사용하므로 <b>입력 순서를 보장하지 않음</b>.<br />
+    - 따라서 <code>for-each</code>나 <code>entrySet()</code>으로 순회 시, 저장 순서와 무관하게 임의의 순서로 출력됨.
+  </li>
+
+  <li><b>사용 목적과의 불일치</b><br />
+    - 본 프로젝트의 일정 관리에서는 “등록 순서대로 조회·삭제”하는 것이 핵심 UX였음.<br />
+    - 즉, <code>List</code>처럼 순서를 유지하되, <code>Map</code>의 빠른 검색 기능도 필요했음.
+  </li>
+</ol>
+
+<h4> 해결 과정</h4>
+
+<ol>
+  <li><b>자료구조 교체: HashMap → LinkedHashMap</b><br />
+    - <code>LinkedHashMap</code>은 내부적으로 <b>이중 연결 리스트</b>를 사용해 삽입 순서를 유지함.<br />
+    - 이를 통해 “등록 순서대로 출력 + Key 기반 검색”을 동시에 구현할 수 있음.
+  </li>
+
+  <li><b>코드 수정</b></li>
+</ol>
+
+```java
+// 기존
+private final Map<String, Schedule> schedules = new HashMap<>();
+
+// 변경 후
+private final Map<String, Schedule> schedules = new LinkedHashMap<>();
+
+
