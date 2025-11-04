@@ -95,6 +95,11 @@ Crepe의 거래 중심 일정 관리, ArtMug의 포트폴리오 중심 기록,
 
 <hr />
 
+## 클래스 다이어그램
+<img width="1844" height="1566" alt="Image" src="https://github.com/user-attachments/assets/857649b0-ae42-4a02-8bec-4a766714efe8" />
+
+<hr />
+
 <h2>📎 문서</h2>
 <p>
 (📁 <a href="https://www.notion.so/evve00/2a19bf07f8d0809faeffeb8d8284a6ac?source=copy_link" target="_blank">프로젝트 문서 바로가기</a>)
@@ -145,10 +150,6 @@ Crepe의 거래 중심 일정 관리, ArtMug의 포트폴리오 중심 기록,
 
 <hr />
 
-## 클래스 다이어그램
-<img width="1844" height="1566" alt="Image" src="https://github.com/user-attachments/assets/857649b0-ae42-4a02-8bec-4a766714efe8" />
-
-<hr />
 
 <h2>🧯 트러블슈팅 (Troubleshooting)</h2>
 
