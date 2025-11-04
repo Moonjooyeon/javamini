@@ -143,3 +143,8 @@ Crepe의 거래 중심 일정 관리, ArtMug의 포트폴리오 중심 기록,
 객체 간의 역할을 명확히 구분하는 설계가 가능했습니다.
 </p>
 
+<hr />
+
+## 클래스 다이어그램
+<img width="1844" height="1566" alt="Image" src="https://github.com/user-attachments/assets/857649b0-ae42-4a02-8bec-4a766714efe8" />
+
