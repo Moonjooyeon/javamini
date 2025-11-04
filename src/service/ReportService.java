@@ -2,13 +2,13 @@ package service;
 
 import exceptions.StorageException;
 import model.Expense;
-import model.Project;
 import model.Schedule;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
+import java.time.LocalDate;
 import java.time.YearMonth;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -23,8 +23,15 @@ public class ReportService {
         StringBuilder sb = new StringBuilder();
         sb.append("📅 월간 활동 리포트 (").append(ym).append(")\n\n");
 
+        // ---- (A) null-세이프 월 합계 (범위 필터) ----
+        LocalDate start = ym.atDay(1);
+        LocalDate endExclusive = ym.plusMonths(1).atDay(1);
+
         int totalExpense = store.getExpenses().stream()
-                .filter(e -> YearMonth.from(e.getPurchaseDate()).equals(ym))
+                .filter(e -> {
+                    var d = e.getPurchaseDate();
+                    return d != null && !d.isBefore(start) && d.isBefore(endExclusive);
+                })
                 .mapToInt(Expense::getPrice)
                 .sum();
         sb.append("💰 총 소비액: ").append(totalExpense).append("원\n");

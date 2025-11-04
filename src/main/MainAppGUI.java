@@ -115,6 +115,13 @@ public class MainAppGUI extends JFrame {
         catch (Exception e) { throw new ValidationException("날짜 형식이 잘못됐습니다. 예) 2025-11-03"); }
 
         expenseService.addExpense(title, category, price, purchaseDate);
+
+        // 🔎 디버그: 실제 추가되었는지/날짜/스토어 아이디 확인
+        System.out.println("[DEBUG][addExpense] store.id=" + System.identityHashCode(store)
+                + " / size=" + store.getExpenses().size());
+        System.out.println("[DEBUG][addExpense] last=" + title + " / " + price
+                + " / date=" + purchaseDate);
+
         fileManager.saveAll();
         JOptionPane.showMessageDialog(this, "추가되었습니다.");
     }
@@ -309,7 +316,30 @@ public class MainAppGUI extends JFrame {
         if (store.getExpenses().isEmpty() && store.getProjects().isEmpty() && store.getSchedules().isEmpty()) {
             JOptionPane.showMessageDialog(this, "리포트에 표시할 데이터가 없습니다."); return;
         }
-        var ym = java.time.YearMonth.now();
+
+        java.time.YearMonth nowYm = java.time.YearMonth.now();
+        String def = nowYm.toString(); // "2025-11"
+        String in = JOptionPane.showInputDialog(this, "리포트 대상 월을 입력하세요 (yyyy-MM), 기본=" + def, def);
+
+        java.time.YearMonth ym;
+        try {
+            ym = (in == null || in.isBlank()) ? nowYm : java.time.YearMonth.parse(in.trim());
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "형식 오류. 현재 월로 진행합니다: " + def);
+            ym = nowYm;
+        }
+
+        // 🔎 디버그: YM과 스토어/항목 상태 (null-safe)
+        System.out.println("[DEBUG][report] ym=" + ym + " / store.id=" + System.identityHashCode(store));
+        System.out.println("[DEBUG][report] expenses.size=" + store.getExpenses().size());
+        final java.time.YearMonth targetYm = ym;
+        for (var e : store.getExpenses()) {
+            var d = e.getPurchaseDate();
+            boolean sameMonth = (d != null) && java.time.YearMonth.from(d).equals(targetYm);
+            System.out.println("[DEBUG][report] " + e.getTitle() + " / " + e.getPrice()
+                    + " / date=" + d + " / sameMonth=" + sameMonth);
+        }
+
         String content = reportService.buildMonthlySummary(ym);
         JOptionPane.showMessageDialog(this, content, "월간 활동 리포트", JOptionPane.INFORMATION_MESSAGE);
     }
